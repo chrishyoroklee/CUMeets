@@ -68,24 +68,6 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        <View style={styles.card}>
-          <View style={styles.cardHeader}>
-            <ThemedText type="subtitle" style={styles.cardTitle}>John Doe 1</ThemedText>
-            <View style={styles.cardActions}>
-              <Ionicons name="heart-outline" size={20} color="#0f172a" />
-              <Ionicons name="chatbubble-ellipses-outline" size={20} color="#0f172a" />
-            </View>
-          </View>
-
-          <View style={styles.cardBody}>
-            <View style={styles.avatarPlaceholder} />
-            <View style={styles.detailBox}>
-              <ThemedText style={styles.detailLine}>Graduation: Fall 2026</ThemedText>
-              <ThemedText style={styles.detailLine}>Major: B.A. in C.S.</ThemedText>
-            </View>
-          </View>
-        </View>
-
       </ThemedView>
     </SafeAreaView>
   );
