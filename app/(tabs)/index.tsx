@@ -1,15 +1,36 @@
-import { StyleSheet, View } from 'react-native';
+import { useState } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 
 export default function HomeScreen() {
+  const [role, setRole] = useState<'alumni' | 'student'>('alumni');
+
   return (
     <SafeAreaView style={{ flex: 1 }} edges={['top', 'right', 'left']}>
       <ThemedView style={styles.container}>
         <ThemedText type="title" style={styles.header}>CU Meets</ThemedText>
-        <ThemedText style={styles.subhead}>Directory of Alumni</ThemedText>
+
+        <View style={styles.toggleRow}>
+          <Pressable
+            style={[styles.toggle, role === 'alumni' && styles.toggleActive]}
+            onPress={() => setRole('alumni')}
+          >
+            <ThemedText style={[styles.toggleLabel, role === 'alumni' && styles.toggleLabelActive]}>
+              Alumni
+            </ThemedText>
+          </Pressable>
+          <Pressable
+            style={[styles.toggle, role === 'student' && styles.toggleActive]}
+            onPress={() => setRole('student')}
+          >
+            <ThemedText style={[styles.toggleLabel, role === 'student' && styles.toggleLabelActive]}>
+              Student
+            </ThemedText>
+          </Pressable>
+        </View>
 
         <View style={styles.section}>
           <ThemedText type="subtitle">John Doe</ThemedText>
@@ -36,6 +57,28 @@ const styles = StyleSheet.create({
   subhead: {
     opacity: 0.8,
     textAlign: 'center',
+  },
+  toggleRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  toggle: {
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: '#c8c8c8',
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+  },
+  toggleActive: {
+    backgroundColor: '#0f172a',
+    borderColor: '#0f172a',
+  },
+  toggleLabel: {
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  toggleLabelActive: {
+    color: '#ffffff',
   },
   section: {
     gap: 10,
