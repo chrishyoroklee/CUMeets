@@ -1,14 +1,54 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useState } from 'react';
+import { collection, query as fsQuery, onSnapshot, where } from 'firebase/firestore';
+import { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { db } from '@/firebase/firebase';
 
 export default function HomeScreen() {
   const [role, setRole] = useState<'alumni' | 'student'>('alumni');
   const [query, setQuery] = useState('');
+  const [users, setUsers] = useState<UserProfile[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const selectedType = role === 'student' ? 'Student' : 'Alumni';
+    const q = fsQuery(collection(db, 'users'), where('type', '==', selectedType));
+
+    setLoading(true);
+    setError(null);
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const nextUsers = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...(doc.data() as FirestoreUser),
+        }));
+        setUsers(nextUsers);
+        setLoading(false);
+      },
+      (err) => {
+        setUsers([]);
+        setLoading(false);
+        setError(err.message || 'Failed to load users.');
+      }
+    );
+
+    return () => unsubscribe();
+  }, [role]);
+
+  const filteredUsers = useMemo(() => {
+    const term = query.trim().toLowerCase();
+    if (!term) return users;
+    return users.filter((user) => {
+      const fields = [user.name, user.major, user.graduation].filter(Boolean).join(' ').toLowerCase();
+      return fields.includes(term);
+    });
+  }, [users, query]);
 
   return (
     <SafeAreaView style={{ flex: 1 }} edges={['top', 'right', 'left']}>
@@ -50,28 +90,60 @@ export default function HomeScreen() {
           </Pressable>
         </View>
 
-        <View style={styles.card}>
-          <View style={styles.cardHeader}>
-            <ThemedText type="subtitle" style={styles.cardTitle}>John Doe 1</ThemedText>
-            <View style={styles.cardActions}>
-              <Ionicons name="heart-outline" size={20} color="#0f172a" />
-              <Ionicons name="chatbubble-ellipses-outline" size={20} color="#0f172a" />
-            </View>
-          </View>
+        {loading && (
+          <ThemedText style={styles.statusText}>Loading {role}...</ThemedText>
+        )}
 
-          <View style={styles.cardBody}>
-            <View style={styles.avatarPlaceholder} />
-            <View style={styles.detailBox}>
-              <ThemedText style={styles.detailLine}>Graduation: Fall 2026</ThemedText>
-              <ThemedText style={styles.detailLine}>Major: B.A. in C.S.</ThemedText>
+        {error && (
+          <ThemedText style={[styles.statusText, styles.errorText]}>
+            {error}
+          </ThemedText>
+        )}
+
+        {!loading && !error && filteredUsers.length === 0 && (
+          <ThemedText style={styles.statusText}>No {role} found.</ThemedText>
+        )}
+
+        {filteredUsers.map((user) => (
+          <View key={user.id} style={styles.card}>
+            <View style={styles.cardHeader}>
+              <ThemedText type="subtitle" style={styles.cardTitle}>
+                {user.name || 'Unnamed'}
+              </ThemedText>
+              <View style={styles.cardActions}>
+                <Ionicons name="heart-outline" size={20} color="#0f172a" />
+                <Ionicons name="chatbubble-ellipses-outline" size={20} color="#0f172a" />
+              </View>
+            </View>
+
+            <View style={styles.cardBody}>
+              <View style={styles.avatarPlaceholder} />
+              <View style={styles.detailBox}>
+                <ThemedText style={styles.detailLine}>
+                  Graduation: {user.graduation || 'N/A'}
+                </ThemedText>
+                <ThemedText style={styles.detailLine}>
+                  Major: {user.major || 'N/A'}
+                </ThemedText>
+              </View>
             </View>
           </View>
-        </View>
+        ))}
 
       </ThemedView>
     </SafeAreaView>
   );
 }
+
+type FirestoreUser = {
+  name?: string;
+  graduation?: string;
+  major?: string;
+  picture?: string;
+  type?: string;
+};
+
+type UserProfile = FirestoreUser & { id: string };
 
 const styles = StyleSheet.create({
   container: {
@@ -194,5 +266,13 @@ const styles = StyleSheet.create({
   },
   detailLine: {
     fontSize: 16,
+  },
+  statusText: {
+    textAlign: 'center',
+    width: '100%',
+    color: '#475569',
+  },
+  errorText: {
+    color: '#b91c1c',
   },
 });

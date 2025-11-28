@@ -1,5 +1,6 @@
 import { initializeApp, getApp, getApps } from 'firebase/app';
 import { getAnalytics, isSupported } from 'firebase/analytics';
+import { initializeFirestore, Firestore } from 'firebase/firestore';
 
 // Firebase config for CU Meets (loaded from environment)
 const firebaseConfig = {
@@ -14,6 +15,14 @@ const firebaseConfig = {
 
 // Ensure the app initializes only once (hot reload safe)
 export const firebaseApp = getApps().length ? getApp() : initializeApp(firebaseConfig);
+
+// Initialize Firestore once (hot reload safe) with long-polling for RN
+let firestoreInstance: Firestore | null = null;
+export const db =
+  firestoreInstance ||
+  (firestoreInstance = initializeFirestore(firebaseApp, {
+    experimentalAutoDetectLongPolling: true,
+  }));
 
 // Analytics is web-only; guard so native builds don't break
 export let analytics: ReturnType<typeof getAnalytics> | undefined;
