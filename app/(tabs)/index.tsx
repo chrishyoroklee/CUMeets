@@ -1,3 +1,4 @@
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -32,10 +33,42 @@ export default function HomeScreen() {
           </Pressable>
         </View>
 
-        <View style={styles.section}>
-          <ThemedText type="subtitle">John Doe</ThemedText>
-          <ThemedText style={styles.linkDetail}>Software Engineer at TechCorp</ThemedText>
+        <View style={styles.card}>
+          <View style={styles.cardHeader}>
+            <ThemedText type="subtitle" style={styles.cardTitle}>John Doe 1</ThemedText>
+            <View style={styles.cardActions}>
+              <Ionicons name="heart-outline" size={20} color="#0f172a" />
+              <Ionicons name="chatbubble-ellipses-outline" size={20} color="#0f172a" />
+            </View>
+          </View>
+
+          <View style={styles.cardBody}>
+            <View style={styles.avatarPlaceholder} />
+            <View style={styles.detailBox}>
+              <ThemedText style={styles.detailLine}>Graduation: Fall 2026</ThemedText>
+              <ThemedText style={styles.detailLine}>Major: B.A. in C.S.</ThemedText>
+            </View>
+          </View>
         </View>
+
+        <View style={styles.card}>
+          <View style={styles.cardHeader}>
+            <ThemedText type="subtitle" style={styles.cardTitle}>John Doe 1</ThemedText>
+            <View style={styles.cardActions}>
+              <Ionicons name="heart-outline" size={20} color="#0f172a" />
+              <Ionicons name="chatbubble-ellipses-outline" size={20} color="#0f172a" />
+            </View>
+          </View>
+
+          <View style={styles.cardBody}>
+            <View style={styles.avatarPlaceholder} />
+            <View style={styles.detailBox}>
+              <ThemedText style={styles.detailLine}>Graduation: Fall 2026</ThemedText>
+              <ThemedText style={styles.detailLine}>Major: B.A. in C.S.</ThemedText>
+            </View>
+          </View>
+        </View>
+
       </ThemedView>
     </SafeAreaView>
   );
@@ -85,19 +118,50 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   card: {
+    width: '100%',
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
-    padding: 12,
-    gap: 4,
+    backgroundColor: '#ffffff',
+    overflow: 'hidden',
   },
-  linkRow: {
+  cardHeader: {
+    backgroundColor: '#d1d5db',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  cardTitle: {
+    marginBottom: 0,
+  },
+  cardActions: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  cardBody: {
+    flexDirection: 'row',
+    gap: 12,
+    padding: 12,
+  },
+  avatarPlaceholder: {
+    width: 80,
+    height: 90,
     borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 10,
-    padding: 12,
-    gap: 2,
+    borderColor: '#475569',
+    borderRadius: 6,
+    backgroundColor: '#f8fafc',
   },
-  linkDetail: {
-    opacity: 0.8,
-    textAlign: 'center',
+  detailBox: {
+    flex: 1,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: '#475569',
+    borderRadius: 6,
+    padding: 10,
+    justifyContent: 'center',
+    gap: 6,
+  },
+  detailLine: {
+    fontSize: 16,
   },
 });
