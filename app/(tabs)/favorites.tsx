@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 
-export default function HomeScreen() {
+export default function FavoritesScreen() {
   return (
     <SafeAreaView style={{ flex: 1 }} edges={['top', 'right', 'left']}>
       <ThemedView style={styles.container}>
@@ -23,23 +23,19 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 30,
+    paddingTop: 12,
     paddingHorizontal: 20,
     paddingBottom: 20,
     gap: 16,
-    alignItems: 'center',
   },
   header: {
     marginBottom: 4,
-    textAlign: 'center',
   },
   subhead: {
     opacity: 0.8,
-    textAlign: 'center',
   },
   section: {
     gap: 10,
-    alignItems: 'center',
   },
   card: {
     borderWidth: StyleSheet.hairlineWidth,
@@ -55,6 +51,5 @@ const styles = StyleSheet.create({
   },
   linkDetail: {
     opacity: 0.8,
-    textAlign: 'center',
   },
 });
