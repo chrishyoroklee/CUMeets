@@ -1,6 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
@@ -8,6 +8,7 @@ import { ThemedView } from '@/components/themed-view';
 
 export default function HomeScreen() {
   const [role, setRole] = useState<'alumni' | 'student'>('alumni');
+  const [query, setQuery] = useState('');
 
   return (
     <SafeAreaView style={{ flex: 1 }} edges={['top', 'right', 'left']}>
@@ -30,6 +31,22 @@ export default function HomeScreen() {
             <ThemedText style={[styles.toggleLabel, role === 'student' && styles.toggleLabelActive]}>
               Student
             </ThemedText>
+          </Pressable>
+        </View>
+
+        <View style={styles.searchRow}>
+          <View style={styles.searchInputWrap}>
+            <Ionicons name="search-outline" size={18} color="#475569" />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search alumni..."
+              value={query}
+              onChangeText={setQuery}
+              placeholderTextColor="#94a3b8"
+            />
+          </View>
+          <Pressable style={styles.filterButton}>
+            <Ionicons name="funnel-outline" size={18} color="#0f172a" />
           </Pressable>
         </View>
 
@@ -112,6 +129,38 @@ const styles = StyleSheet.create({
   },
   toggleLabelActive: {
     color: '#ffffff',
+  },
+  searchRow: {
+    flexDirection: 'row',
+    width: '100%',
+    gap: 10,
+    alignItems: 'center',
+  },
+  searchInputWrap: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: '#cbd5e1',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    backgroundColor: '#ffffff',
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+  },
+  filterButton: {
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: '#cbd5e1',
+    borderRadius: 10,
+    backgroundColor: '#ffffff',
   },
   section: {
     gap: 10,
