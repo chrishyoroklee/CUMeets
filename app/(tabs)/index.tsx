@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { collection, query as fsQuery, onSnapshot, where } from 'firebase/firestore';
 import { useEffect, useMemo, useState } from 'react';
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
@@ -53,83 +53,89 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={{ flex: 1 }} edges={['top', 'right', 'left']}>
       <ThemedView style={styles.container}>
-        <ThemedText type="title" style={styles.header}>CU Meets</ThemedText>
+        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+          <ThemedText type="title" style={styles.header}>CU Meets</ThemedText>
 
-        <View style={styles.toggleRow}>
-          <Pressable
-            style={[styles.toggle, role === 'alumni' && styles.toggleActive]}
-            onPress={() => setRole('alumni')}
-          >
-            <ThemedText style={[styles.toggleLabel, role === 'alumni' && styles.toggleLabelActive]}>
-              Alumni
-            </ThemedText>
-          </Pressable>
-          <Pressable
-            style={[styles.toggle, role === 'student' && styles.toggleActive]}
-            onPress={() => setRole('student')}
-          >
-            <ThemedText style={[styles.toggleLabel, role === 'student' && styles.toggleLabelActive]}>
-              Student
-            </ThemedText>
-          </Pressable>
-        </View>
-
-        <View style={styles.searchRow}>
-          <View style={styles.searchInputWrap}>
-            <Ionicons name="search-outline" size={18} color="#475569" />
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search alumni..."
-              value={query}
-              onChangeText={setQuery}
-              placeholderTextColor="#94a3b8"
-            />
-          </View>
-          <Pressable style={styles.filterButton}>
-            <Ionicons name="funnel-outline" size={18} color="#0f172a" />
-          </Pressable>
-        </View>
-
-        {loading && (
-          <ThemedText style={styles.statusText}>Loading {role}...</ThemedText>
-        )}
-
-        {error && (
-          <ThemedText style={[styles.statusText, styles.errorText]}>
-            {error}
-          </ThemedText>
-        )}
-
-        {!loading && !error && filteredUsers.length === 0 && (
-          <ThemedText style={styles.statusText}>No {role} found.</ThemedText>
-        )}
-
-        {filteredUsers.map((user) => (
-          <View key={user.id} style={styles.card}>
-            <View style={styles.cardHeader}>
-              <ThemedText type="subtitle" style={styles.cardTitle}>
-                {user.name || 'Unnamed'}
+          <View style={styles.toggleRow}>
+            <Pressable
+              style={[styles.toggle, role === 'alumni' && styles.toggleActive]}
+              onPress={() => setRole('alumni')}
+            >
+              <ThemedText style={[styles.toggleLabel, role === 'alumni' && styles.toggleLabelActive]}>
+                Alumni
               </ThemedText>
-              <View style={styles.cardActions}>
-                <Ionicons name="heart-outline" size={20} color="#0f172a" />
-                <Ionicons name="chatbubble-ellipses-outline" size={20} color="#0f172a" />
-              </View>
-            </View>
-
-            <View style={styles.cardBody}>
-              <View style={styles.avatarPlaceholder} />
-              <View style={styles.detailBox}>
-                <ThemedText style={styles.detailLine}>
-                  Graduation: {user.graduation || 'N/A'}
-                </ThemedText>
-                <ThemedText style={styles.detailLine}>
-                  Major: {user.major || 'N/A'}
-                </ThemedText>
-              </View>
-            </View>
+            </Pressable>
+            <Pressable
+              style={[styles.toggle, role === 'student' && styles.toggleActive]}
+              onPress={() => setRole('student')}
+            >
+              <ThemedText style={[styles.toggleLabel, role === 'student' && styles.toggleLabelActive]}>
+                Student
+              </ThemedText>
+            </Pressable>
           </View>
-        ))}
 
+          <View style={styles.searchRow}>
+            <View style={styles.searchInputWrap}>
+              <Ionicons name="search-outline" size={20} color="#6b7280" />
+              <TextInput
+                style={styles.searchInput}
+                placeholder="search alumnis"
+                value={query}
+                onChangeText={setQuery}
+                placeholderTextColor="#9ca3af"
+              />
+            </View>
+            <Pressable style={styles.filterButton}>
+              <Ionicons name="options-outline" size={20} color="#1f2937" />
+            </Pressable>
+          </View>
+
+          {loading && (
+            <ThemedText style={styles.statusText}>Loading {role}...</ThemedText>
+          )}
+
+          {error && (
+            <ThemedText style={[styles.statusText, styles.errorText]}>
+              {error}
+            </ThemedText>
+          )}
+
+          {!loading && !error && filteredUsers.length === 0 && (
+            <ThemedText style={styles.statusText}>No {role} found.</ThemedText>
+          )}
+
+          {filteredUsers.map((user) => (
+            <View key={user.id} style={styles.card}>
+              <View style={styles.cardHeader}>
+                <ThemedText type="subtitle" style={styles.cardTitle}>
+                  {user.name || 'Unnamed'}
+                </ThemedText>
+                <View style={styles.cardActions}>
+                  <Ionicons name="heart-outline" size={22} color="#0f172a" />
+                  <Ionicons name="chatbubble-outline" size={22} color="#0f172a" />
+                </View>
+              </View>
+
+              <View style={styles.cardBody}>
+                <View style={styles.avatarPlaceholder}>
+                  <Text style={styles.avatarX}>X</Text>
+                </View>
+                <View style={styles.detailBox}>
+                  <ThemedText style={styles.detailLine}>
+                    Work: {user.work || 'N/A'}
+                  </ThemedText>
+                  <ThemedText style={styles.detailLine}>
+                    Graduation: {user.graduation || 'N/A'}
+                  </ThemedText>
+                  <ThemedText style={styles.detailLine}>
+                    Major: {user.major || 'N/A'}
+                  </ThemedText>
+                </View>
+              </View>
+            </View>
+          ))}
+        </ScrollView>
       </ThemedView>
     </SafeAreaView>
   );
@@ -137,6 +143,7 @@ export default function HomeScreen() {
 
 type FirestoreUser = {
   name?: string;
+  work?: string;
   graduation?: string;
   major?: string;
   picture?: string;
@@ -148,15 +155,19 @@ type UserProfile = FirestoreUser & { id: string };
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 30,
-    paddingHorizontal: 20,
-    paddingBottom: 20,
+    backgroundColor: '#f8fafc',
+  },
+  content: {
+    paddingTop: 24,
+    paddingHorizontal: 18,
+    paddingBottom: 40,
     gap: 16,
-    alignItems: 'center',
   },
   header: {
-    marginBottom: 4,
+    marginBottom: 2,
     textAlign: 'center',
+    fontSize: 28,
+    fontWeight: '700',
   },
   subhead: {
     opacity: 0.8,
@@ -164,22 +175,26 @@ const styles = StyleSheet.create({
   },
   toggleRow: {
     flexDirection: 'row',
-    gap: 12,
+    gap: 10,
+    justifyContent: 'center',
   },
   toggle: {
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#c8c8c8',
-    borderRadius: 10,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
+    flex: 1,
+    borderWidth: 1.5,
+    borderColor: '#c5cfdb',
+    borderRadius: 12,
+    paddingVertical: 12,
+    backgroundColor: '#eef2f7',
   },
   toggleActive: {
-    backgroundColor: '#0f172a',
-    borderColor: '#0f172a',
+    backgroundColor: '#5f9cf6',
+    borderColor: '#5f9cf6',
   },
   toggleLabel: {
-    fontWeight: '600',
+    fontWeight: '700',
     textAlign: 'center',
+    color: '#475569',
+    fontSize: 16,
   },
   toggleLabelActive: {
     color: '#ffffff',
@@ -195,24 +210,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#cbd5e1',
+    borderWidth: 2,
+    borderColor: '#cfd6df',
     borderRadius: 10,
     paddingHorizontal: 12,
-    paddingVertical: 10,
+    paddingVertical: 12,
     backgroundColor: '#ffffff',
   },
   searchInput: {
     flex: 1,
     fontSize: 16,
+    color: '#1f2937',
   },
   filterButton: {
-    width: 44,
-    height: 44,
+    width: 80,
+    height: 52,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#cbd5e1',
+    borderWidth: 2,
+    borderColor: '#cfd6df',
     borderRadius: 10,
     backgroundColor: '#ffffff',
   },
@@ -222,50 +238,61 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '100%',
-    borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#f4f5f8',
     overflow: 'hidden',
+    padding: 12,
   },
   cardHeader: {
-    backgroundColor: '#d1d5db',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingHorizontal: 4,
+    paddingVertical: 4,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   cardTitle: {
-    marginBottom: 0,
+    marginBottom: 8,
+    fontSize: 20,
+    fontWeight: '500',
   },
   cardActions: {
     flexDirection: 'row',
-    gap: 12,
+    gap: 14,
   },
   cardBody: {
     flexDirection: 'row',
     gap: 12,
-    padding: 12,
+    paddingHorizontal: 4,
+    paddingTop: 2,
   },
   avatarPlaceholder: {
-    width: 80,
-    height: 90,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#475569',
+    width: 88,
+    height: 92,
+    borderWidth: 3,
+    borderColor: '#9aa3b1',
     borderRadius: 6,
     backgroundColor: '#f8fafc',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  avatarX: {
+    color: '#9aa3b1',
+    fontSize: 36,
+    fontWeight: '400',
   },
   detailBox: {
     flex: 1,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#475569',
+    borderWidth: 3,
+    borderColor: '#9aa3b1',
     borderRadius: 6,
     padding: 10,
     justifyContent: 'center',
     gap: 6,
+    backgroundColor: '#f8fafc',
   },
   detailLine: {
     fontSize: 16,
+    color: '#1f2937',
   },
   statusText: {
     textAlign: 'center',
