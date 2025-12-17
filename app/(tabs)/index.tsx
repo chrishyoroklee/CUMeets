@@ -155,7 +155,7 @@ type UserProfile = FirestoreUser & { id: string };
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8fafc',
+    backgroundColor: '#ffffff',
   },
   content: {
     paddingTop: 24,
@@ -264,9 +264,10 @@ const styles = StyleSheet.create({
     gap: 12,
     paddingHorizontal: 4,
     paddingTop: 2,
+    alignItems: 'center',
   },
   avatarPlaceholder: {
-    width: 88,
+    width: 92,
     height: 92,
     borderWidth: 3,
     borderColor: '#9aa3b1',
@@ -285,7 +286,9 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#9aa3b1',
     borderRadius: 6,
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    minHeight: 92,
     justifyContent: 'center',
     gap: 6,
     backgroundColor: '#f8fafc',
