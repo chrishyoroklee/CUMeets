@@ -1,9 +1,12 @@
 import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, Image, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import avatar1 from '@/assets/placeholders/avatar1.png';
+import avatar2 from '@/assets/placeholders/avatar2.png';
+import avatar3 from '@/assets/placeholders/avatar3.png';
 
 // Mock data based on the wireframe image
 const chatData = [
@@ -15,11 +18,13 @@ const chatData = [
   { id: '6', name: 'Person 6', message: 'Last Message You Sent', time: '1+ week ago' },
 ];
 
+const avatars = [avatar1, avatar2, avatar3];
+
 // Component for a single chat item row
-const ChatItem = ({ name, message, time }) => (
+const ChatItem = ({ name, message, time, index }) => (
   <ThemedView style={styles.chatItem}>
     <View style={styles.avatarContainer}>
-      <View style={styles.avatar} />
+      <Image source={avatars[index % avatars.length]} style={styles.avatar} />
       <ThemedText style={styles.nameText}>{name}</ThemedText>
     </View>
     <View style={styles.messageContainer}>
@@ -38,7 +43,7 @@ export default function ChatScreen() {
         <FlatList
           data={chatData}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <ChatItem {...item} />}
+          renderItem={({ item, index }) => <ChatItem {...item} index={index} />}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.listContent}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -89,11 +94,10 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    borderWidth: 1.5,
-    // Use a themed color if available, otherwise black for the wireframe look
-    borderColor: '#000',
+    borderWidth: 2,
+    borderColor: '#9aa3b1',
     marginBottom: 4,
-    backgroundColor: 'transparent', // Placeholder for an image
+    resizeMode: 'cover',
   },
   nameText: {
     fontSize: 12,

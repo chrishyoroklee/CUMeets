@@ -1,17 +1,19 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Linking, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Image, Linking, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import logo from '@/assets/images/logo.png';
+import avatar1 from '@/assets/placeholders/avatar1.png';
 import { ThemedText } from '@/components/themed-text';
 
 export default function ProfileScreen() {
-    const name = "Katherine";
-    const yearAndMajor = "Sophomore Studying Economics";
-    const location = "Lincoln Center";
-    const linkedin = "https://www.linkedin.com/in/kat-jones-8374018c9/";
-    const github = "https://github.com/katsportfolio";
+    const name = "Jonathan";
+    const yearAndMajor = "L4 - Software Engineer @ Google";
+    const location = "Lower East Side";
+    const linkedin = "https://www.linkedin.com/in/john-smith-83407282b1/";
+    const github = "https://github.com/jsmith";
     const about =
-        "Katherine is a sophomore in GS studying economics, with a projected graduation date of May 2028. She has been passionate about finance since a young age, and she hopes to secure a job in sales and trading upon graduation.";
+        "Jonathan has a B.S. in Computer Science. He is a Columbia SEAS Alumnus and he graduated in 2021. In his spare time, Jonathan enjoys cycling and reading fantasy novels. He loves seafood, and his favorite meal is a lobster roll.";
 
     return (
         <SafeAreaView style={{ flex: 1 }} edges={['top', 'right', 'left']}>
@@ -23,18 +25,16 @@ export default function ProfileScreen() {
                     <ThemedText style={styles.navLabel}>Directory</ThemedText>
                 </View> */}
 
-                {/* Title */}
-                <ThemedText type="title" style={styles.title}>
-                    CU Meets
-                </ThemedText>
+                {/* Header logo */}
+                <View style={styles.headerLogoWrap}>
+                    <View style={styles.logoBadge}>
+                        <Image source={logo} style={styles.logoImage} />
+                    </View>
+                </View>
 
                 {/* Avatar section */}
                 <View style={styles.avatarWrapper}>
-                    <View style={styles.outerCircle}>
-                        <View style={styles.innerCircle}>
-                            <Ionicons name="person-circle-outline" size={120} color="#000" />
-                        </View>
-                    </View>
+                    <Image source={avatar1} style={styles.profileImage} />
                 </View>
 
                 {/* Profile text */}
@@ -120,34 +120,33 @@ const styles = StyleSheet.create({
         marginLeft: 2,
     },
 
-    title: {
-        textAlign: 'center',
+    headerLogoWrap: {
+        width: '100%',
+        alignItems: 'center',
         marginBottom: 12,
+        paddingVertical: 8,
+    },
+    logoBadge: {
+        width: '100%',
+        alignItems: 'center',
+    },
+    logoImage: {
+        width: 220,
+        height: 70,
+        resizeMode: 'contain',
     },
 
     avatarWrapper: {
         alignItems: 'center',
         marginBottom: 10,
     },
-
-    outerCircle: {
-        width: 170,
-        height: 170,
-        borderRadius: 85,
-        borderWidth: 2,
-        borderColor: '#000',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-
-    innerCircle: {
+    profileImage: {
         width: 150,
         height: 150,
         borderRadius: 75,
         borderWidth: 2,
-        borderColor: '#000',
-        alignItems: 'center',
-        justifyContent: 'center',
+        borderColor: '#9aa3b1',
+        resizeMode: 'cover',
     },
 
     name: {
