@@ -1,9 +1,8 @@
-import { StyleSheet, View, ScrollView, Pressable, Linking } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { Linking, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 
 export default function ProfileScreen() {
     const name = "Katherine";
@@ -19,10 +18,10 @@ export default function ProfileScreen() {
             <ScrollView contentContainerStyle={styles.container}>
 
                 {/* Top navigation row */}
-                <View style={styles.navRow}>
+                {/* <View style={styles.navRow}>
                     <Ionicons name="chevron-back" size={24} />
                     <ThemedText style={styles.navLabel}>Directory</ThemedText>
-                </View>
+                </View> */}
 
                 {/* Title */}
                 <ThemedText type="title" style={styles.title}>
