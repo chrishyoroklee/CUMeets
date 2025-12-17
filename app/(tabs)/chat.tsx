@@ -1,4 +1,5 @@
-import { StyleSheet, FlatList, View } from 'react-native';
+import React from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
@@ -40,6 +41,13 @@ export default function ChatScreen() {
           renderItem={({ item }) => <ChatItem {...item} />}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.listContent}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
+          ListFooterComponent={() => (
+            <View style={styles.footer}>
+              <View style={styles.separator} />
+              <View style={styles.bottomSpacer} />
+            </View>
+          )}
         />
       </ThemedView>
     </SafeAreaView>
@@ -51,11 +59,27 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listContent: {
-    padding: 20,
+    paddingHorizontal: 0,
+    paddingVertical: 20,
   },
   chatItem: {
     flexDirection: 'row',
-    marginBottom: 24, // Spacing between items
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#d1d5db',
+    marginVertical: 4,
+    marginHorizontal: 0,
+  },
+  footer: {
+    marginTop: 4,
+  },
+  bottomSpacer: {
+    height: 140,
+    backgroundColor: '#e5e7eb',
+    marginTop: -2,
   },
   avatarContainer: {
     alignItems: 'center',
