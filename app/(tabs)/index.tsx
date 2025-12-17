@@ -1,9 +1,13 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { collection, query as fsQuery, onSnapshot, where } from 'firebase/firestore';
 import { useEffect, useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import logo from '@/assets/images/logo.png';
+import avatar1 from '@/assets/placeholders/avatar1.png';
+import avatar2 from '@/assets/placeholders/avatar2.png';
+import avatar3 from '@/assets/placeholders/avatar3.png';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { db } from '@/firebase/firebase';
@@ -54,7 +58,11 @@ export default function HomeScreen() {
     <SafeAreaView style={{ flex: 1 }} edges={['top', 'right', 'left']}>
       <ThemedView style={styles.container}>
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-          <ThemedText type="title" style={styles.header}>CU Meets</ThemedText>
+          <View style={styles.headerLogoWrap}>
+            <View style={styles.logoBadge}>
+              <Image source={logo} style={styles.logoImage} />
+            </View>
+          </View>
 
           <View style={styles.toggleRow}>
             <Pressable
@@ -105,7 +113,7 @@ export default function HomeScreen() {
             <ThemedText style={styles.statusText}>No {role} found.</ThemedText>
           )}
 
-          {filteredUsers.map((user) => (
+          {filteredUsers.map((user, index) => (
             <View key={user.id} style={styles.card}>
               <View style={styles.cardHeader}>
                 <ThemedText type="subtitle" style={styles.cardTitle}>
@@ -118,9 +126,7 @@ export default function HomeScreen() {
               </View>
 
               <View style={styles.cardBody}>
-                <View style={styles.avatarPlaceholder}>
-                  <Text style={styles.avatarX}>X</Text>
-                </View>
+                <Image source={avatars[index % avatars.length]} style={styles.avatarImage} />
                 <View style={styles.detailBox}>
                   <ThemedText style={styles.detailLine}>
                     Work: {user.work || 'N/A'}
@@ -152,13 +158,15 @@ type FirestoreUser = {
 
 type UserProfile = FirestoreUser & { id: string };
 
+const avatars = [avatar1, avatar2, avatar3];
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
   },
   content: {
-    paddingTop: 24,
+    paddingTop: 0,
     paddingHorizontal: 18,
     paddingBottom: 40,
     gap: 16,
@@ -168,6 +176,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 28,
     fontWeight: '700',
+    color: '#0f172a',
+  },
+  headerLogoWrap: {
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: 12,
+    paddingVertical: 8,
+  },
+  logoBadge: {
+    width: '100%',
+    alignItems: 'center',
+  },
+  logoImage: {
+    width: 250,
+    height: 70,
+    resizeMode: 'contain',
   },
   subhead: {
     opacity: 0.8,
@@ -266,20 +290,14 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     alignItems: 'center',
   },
-  avatarPlaceholder: {
+  avatarImage: {
     width: 92,
     height: 92,
     borderWidth: 3,
     borderColor: '#9aa3b1',
     borderRadius: 6,
     backgroundColor: '#f8fafc',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  avatarX: {
-    color: '#9aa3b1',
-    fontSize: 36,
-    fontWeight: '400',
+    resizeMode: 'cover',
   },
   detailBox: {
     flex: 1,
