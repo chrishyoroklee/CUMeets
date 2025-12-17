@@ -211,17 +211,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#eef2f7',
   },
   toggleActive: {
-    backgroundColor: '#5f9cf6',
-    borderColor: '#5f9cf6',
+    backgroundColor: '#D5F2F8',
+    borderColor: '#D5F2F8',
   },
   toggleLabel: {
     fontWeight: '700',
     textAlign: 'center',
-    color: '#475569',
+    color: '#000000',
     fontSize: 16,
   },
   toggleLabelActive: {
-    color: '#ffffff',
+    color: '#000000',
   },
   searchRow: {
     flexDirection: 'row',

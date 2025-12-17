@@ -58,7 +58,7 @@ export default function ProfileScreen() {
                         <ThemedText style={styles.buttonText}>Add</ThemedText>
                     </Pressable>
 
-                    <Pressable style={styles.button} onPress={() => router.push('/(tabs)/chat')}>
+                    <Pressable style={[styles.button, styles.chatButton]} onPress={() => router.push('/(tabs)/chat')}>
                         <ThemedText style={styles.buttonText}>Chat</ThemedText>
                         <Ionicons name="chatbubble-outline" size={16} style={{ marginLeft: 4 }} />
                     </Pressable>
@@ -186,6 +186,10 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 16,
         gap: 6,
+    },
+    chatButton: {
+        backgroundColor: '#D5F2F8',
+        borderColor: '#000000',
     },
 
     buttonText: {
