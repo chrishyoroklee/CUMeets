@@ -1,12 +1,14 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Image, Linking, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
 
 import logo from '@/assets/images/logo.png';
 import avatar1 from '@/assets/placeholders/avatar1.png';
 import { ThemedText } from '@/components/themed-text';
 
 export default function ProfileScreen() {
+    const router = useRouter();
     const name = "Jonathan";
     const yearAndMajor = "L4 - Software Engineer @ Google";
     const location = "Lower East Side";
@@ -56,7 +58,7 @@ export default function ProfileScreen() {
                         <ThemedText style={styles.buttonText}>Add</ThemedText>
                     </Pressable>
 
-                    <Pressable style={styles.button}>
+                    <Pressable style={styles.button} onPress={() => router.push('/(tabs)/chat')}>
                         <ThemedText style={styles.buttonText}>Chat</ThemedText>
                         <Ionicons name="chatbubble-outline" size={16} style={{ marginLeft: 4 }} />
                     </Pressable>
