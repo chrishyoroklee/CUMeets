@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
   },
   filterButton: {
     width: 80,
-    height: 52,
+    height: 48,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
@@ -286,15 +286,15 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#9aa3b1',
     borderRadius: 6,
-    paddingVertical: 10,
+    paddingVertical: 5,
     paddingHorizontal: 12,
     minHeight: 92,
     justifyContent: 'center',
-    gap: 6,
+    gap: 2,
     backgroundColor: '#f8fafc',
   },
   detailLine: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#1f2937',
   },
   statusText: {
